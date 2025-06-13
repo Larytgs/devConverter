@@ -134,6 +134,10 @@ footer {
 }
 
 @media all and (max-width: 750px) {
+  html,
+  body {
+    overflow: scroll;
+  }
   header {
     text-align: center;
     cursor: pointer;
