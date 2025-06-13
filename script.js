@@ -1,5 +1,5 @@
 const form = document.getElementById("formulario");
-form.addEventListener("submit", prevencao); //adicionar um tipo de evento ao clicar em converter
+form.addEventListener("submit", prevenção);
 
 const inputValue = document.getElementById("valor-real");
 const selectCurrency = document.getElementById("currency");
@@ -7,23 +7,26 @@ const resultado = document.getElementById("resultado");
 let valueConverter = 0;
 let exchangeRates = {};
 
-//Função para buscar taxas de cambio da AwesomeAPI
+// Função para buscar taxas de câmbio da AwesomeAPI
 async function fetchExchangeRates() {
   try {
     resultado.innerHTML = "Carregando taxas de câmbio...";
     const response = await fetch(
       "https://economia.awesomeapi.com.br/last/BRL-EUR,BRL-USD,BRL-ARS,BRL-GBP,BRL-CNY"
     );
+    if (!response.ok) throw new Error("Falha na API");
     const data = await response.json();
+    console.log("Dados da API:", data); // Depuração
 
-    // Mapear as taxas para um objeto mais simples
+    // Mapear as taxas para um objeto mais simples (1 unidade da moeda = X BRL)
     exchangeRates = {
-      euro: parseFloat(data.BRLEUR.bid),
-      dolar: parseFloat(data.BRLUSD.bid),
-      peso: parseFloat(data.BRLARS.bid),
-      libra: parseFloat(data.BRLGBP.bid),
-      yuan: parseFloat(data.BRLCNY.bid),
+      euro: parseFloat(data.BRLEUR.bid), // 1 EUR = X BRL
+      dolar: parseFloat(data.BRLUSD.bid), // 1 USD = X BRL
+      peso: parseFloat(data.BRLARS.bid), // 1 ARS = X BRL
+      libra: parseFloat(data.BRLGBP.bid), // 1 GBP = X BRL
+      yuan: parseFloat(data.BRLCNY.bid), // 1 CNY = X BRL
     };
+    console.log("Taxas carregadas:", exchangeRates); // Depuração
     resultado.innerHTML = ""; // Limpar mensagem de carregamento
   } catch (error) {
     console.error("Erro ao buscar taxas de câmbio:", error);
@@ -31,34 +34,44 @@ async function fetchExchangeRates() {
   }
 }
 
-//Chamar a função para carregar as taxas ao iniciar a pagina
+// Chamar a função para carregar as taxas ao iniciar a página
 fetchExchangeRates();
 
-function prevencao(e) {
-  e.preventDefault(); //para nao atualizar a pagina automaticamente
+function prevenção(e) {
+  e.preventDefault();
 
-  if (!inputValue.value || parseFloat(inputValue.value) <= 0) {
+  const value = parseFloat(inputValue.value);
+  if (!value || value <= 0) {
     window.alert("Informe um valor correto!");
     return;
-  } else if (selectCurrency.value == "") {
+  } else if (selectCurrency.value === "") {
     window.alert("Selecione uma moeda!");
     return;
   }
 
-  converter(); //para chamar a função de baixo
+  converter();
 }
 
 function converter() {
   const currency = selectCurrency.value;
   const value = parseFloat(inputValue.value);
 
-  //Verificar se as taxas foram carregadas
+  // Verificar se as taxas foram carregadas
   if (!exchangeRates[currency]) {
-    resultado.innerHTML = "Taxa de câmbio não disponivel. Tente novamente.";
+    resultado.innerHTML = "Taxa de câmbio não disponível. Tente novamente.";
     return;
   }
 
-  //Mapear moedas para códigos de formata~]ao
+  console.log(`Taxa para ${currency}:`, exchangeRates[currency]); // Depuração
+
+  // Calcular o valor convertido (BRL para moeda estrangeira: dividir pelo valor da taxa)
+  valueConverter = value / exchangeRates[currency];
+  console.log(
+    `Valor convertido (${value} BRL / ${exchangeRates[currency]}):`,
+    valueConverter
+  ); // Depuração
+
+  // Mapear moedas para códigos de formatação
   const currencyMap = {
     euro: { locale: "pt-BR", code: "EUR" },
     dolar: { locale: "en-US", code: "USD" },
@@ -67,66 +80,25 @@ function converter() {
     yuan: { locale: "zh-CN", code: "CNY" },
   };
 
-  // Calcular o valor convertido
-  valueConverter = value / exchangeRates[currency];
   resultado.innerHTML = formatarvalor(
     currencyMap[currency].locale,
     currencyMap[currency].code
   );
 
   animateResult();
-
-  // //valores de julho de 2025
-  // if (selectCurrency.value === "euro") {
-  //   valueConverter = inputValue.value / 6.38;
-  //   resultado.innerHTML = formatarvalor("pt-BR", "EUR"); //€
-
-  //   animateResult(); //para chamar a função de baixo
-  // } else if (selectCurrency.value === "dolar") {
-  //   valueConverter = inputValue.value / 5.6;
-  //   resultado.innerHTML = formatarvalor("en-US", "USD"); //$
-
-  //   animateResult(); //para chamar a função de baixo
-  // } else if (selectCurrency.value === "peso") {
-  //   valueConverter = inputValue.value / 0.0047;
-  //   resultado.innerHTML = formatarvalor("en-US", "USD"); //$
-
-  //   animateResult(); //para chamar a função de baixo
-  // } else if (selectCurrency.value === "libra") {
-  //   valueConverter = inputValue.value / 7.57;
-  //   resultado.innerHTML = formatarvalor("EN-gb", "GBP"); //£
-
-  //   animateResult(); //para chamar a função de baixo
-  // } /*else if(selectCurrency.value === 'rublo'){
-  //       valueConverter = inputValue.value / 0.054;
-  //       resultado.innerHTML = formatarvalor('', 'RUB') //₽
-
-  //       animateResult() //para chamar a função de baixo
-  //   }*/ else if (selectCurrency.value === "yuan") {
-  //   valueConverter = inputValue.value / 0.78;
-  //   resultado.innerHTML = formatarvalor("zh", "CNY"); //¥
-
-  //   animateResult(); //para chamar a função de baixo
-  // }
-
-  //inputValue.value = ''; //para ficar vazio dps de converter
-  //selectCurrency.value = '';
 }
 
 function formatarvalor(locale, currency) {
   const value = valueConverter.toLocaleString(locale, {
     style: "currency",
-    currency: `${currency}`,
+    currency: currency,
   });
-  return `<span>🤑</span> ${value} <span>🤑</span>`; //sempre colocar crase ``
+  return `<span>🤑</span> ${value} <span>🤑</span>`;
 }
 
 function animateResult() {
   return resultado.animate(
-    [
-      { transform: "translateY(-50px)" }, //animação p descer
-      { transform: "translateY(-10px)" },
-    ],
+    [{ transform: "translateY(-50px)" }, { transform: "translateY(-10px)" }],
     { duration: 1000 }
-  ); //duração em segundos
+  );
 }
