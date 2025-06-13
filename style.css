@@ -43,7 +43,6 @@ main {
 
 form {
   width: 100%;
-  margin-bottom: 5px;
   color: black;
   font-size: 1.2em;
 
@@ -51,7 +50,7 @@ form {
   justify-content: center;
 }
 #formulario {
-  margin-top: 40px;
+  margin-top: 30px;
 }
 .inputs_conteiners {
   display: flex;
@@ -116,7 +115,7 @@ select:hover {
   font-size: 2em;
   color: #5ab48d;
   margin-bottom: 50px;
-  margin-top: 0;
+  margin-top: 10px;
 }
 #resultado span {
   font-size: 0.6em;
