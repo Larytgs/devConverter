@@ -47,8 +47,6 @@ form {
   color: black;
   font-size: 1.2em;
 
-  display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
@@ -59,11 +57,6 @@ form {
   display: flex;
   justify-content: space-around;
   margin: 5px;
-}
-.form-group {
-  display: flex;
-  flex-direction: column;
-  margin: 30px;
 }
 
 input,
@@ -81,6 +74,11 @@ button {
 input:hover,
 select:hover {
   box-shadow: inset 1px 1px 5px rgba(0, 0, 0, 0.452);
+}
+.converter-row {
+  display: flex;
+  flex-direction: row; /* Alinha as divs horizontalmente */
+  justify-content: center;
 }
 
 .converter-row input,
@@ -155,16 +153,15 @@ footer {
   #formulario {
     margin-top: 35px;
   }
-  .inputs_conteiners {
+  .converter-row {
     display: flex;
-    flex-direction: column; /*deixar a coluna em baixo*/
+    flex-direction: column; /* Alinha as divs horizontalmente */
+    justify-content: center;
+    margin: auto;
   }
-  .form-group {
-    margin: 15px;
-  }
+
   #resultado {
     font-size: 1.9em;
-    color: #5ab48d;
     margin-top: 30px;
   }
 
