@@ -15,7 +15,7 @@
 html,
 body {
   min-height: 100vh;
-  background-color: #eeecec;
+  background-color: #f0f0f0;
   color: white;
   text-align: center;
   overflow: hidden;
@@ -83,21 +83,35 @@ select:hover {
   box-shadow: inset 1px 1px 5px rgba(0, 0, 0, 0.452);
 }
 
-button {
+.converter-row input,
+.converter-row select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  width: 120px;
+}
+.converter-row button {
+  padding: 8px 15px;
   background-color: #5ab48d;
   color: white;
-  font-size: 1.2em;
+  border: none;
+  border-radius: 4px;
   font-weight: 500;
   cursor: pointer;
-  margin-bottom: 20px;
+  font-size: 1em;
 }
-button:active {
-  /*quando clicar*/
-  background-color: white;
-  color: black;
-  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.452);
-  font-weight: 800;
-  margin-bottom: 0px;
+.converter-row button#swap-currency {
+  background-color: #00695c;
+  padding: 8px;
+  width: 40px;
+}
+.converter-row button:hover {
+  background-color: #004d40;
+}
+
+.converter-row button#swap-currency:hover {
+  background-color: #004d40;
 }
 
 #resultado {
