@@ -18,13 +18,13 @@ async function fetchExchangeRates() {
     const data = await response.json();
     console.log("Dados da API:", data); // Depuração
 
-    // Mapear as taxas para um objeto mais simples (1 unidade da moeda = X BRL)
+    // Mapear as taxas para um objeto mais simples (1 BRL = X moeda estrangeira)
     exchangeRates = {
-      euro: parseFloat(data.BRLEUR.bid), // 1 EUR = X BRL
-      dolar: parseFloat(data.BRLUSD.bid), // 1 USD = X BRL
-      peso: parseFloat(data.BRLARS.bid), // 1 ARS = X BRL
-      libra: parseFloat(data.BRLGBP.bid), // 1 GBP = X BRL
-      yuan: parseFloat(data.BRLCNY.bid), // 1 CNY = X BRL
+      euro: parseFloat(data.BRLEUR.bid), // 1 BRL = X EUR
+      dolar: parseFloat(data.BRLUSD.bid), // 1 BRL = X USD
+      peso: parseFloat(data.BRLARS.bid), // 1 BRL = X ARS
+      libra: parseFloat(data.BRLGBP.bid), // 1 BRL = X GBP
+      yuan: parseFloat(data.BRLCNY.bid), // 1 BRL = X CNY
     };
     console.log("Taxas carregadas:", exchangeRates); // Depuração
     resultado.innerHTML = ""; // Limpar mensagem de carregamento
@@ -64,10 +64,10 @@ function converter() {
 
   console.log(`Taxa para ${currency}:`, exchangeRates[currency]); // Depuração
 
-  // Calcular o valor convertido (BRL para moeda estrangeira: dividir pelo valor da taxa)
-  valueConverter = value / exchangeRates[currency];
+  // Calcular o valor convertido (BRL para moeda estrangeira: multiplicar pela taxa, pois 1 BRL = X moeda)
+  valueConverter = value * exchangeRates[currency];
   console.log(
-    `Valor convertido (${value} BRL / ${exchangeRates[currency]}):`,
+    `Valor convertido (${value} BRL * ${exchangeRates[currency]}):`,
     valueConverter
   ); // Depuração
 
