@@ -13,3 +13,5 @@ Neste projeto, desenvolvi uma aplicação web de conversão de moedas utilizando
 - Botão de conversão com resultado exibido em destaque.
 - Animações visuais de fundo para dar dinamismo ao site.
 - Rodapé com informações de autoria.
+
+Foi adaptado recentemente a busca de dados em tempo real da ExchangeRate-API com cache inteligente e tratamento de erros para garantir um desempenho confiável.
