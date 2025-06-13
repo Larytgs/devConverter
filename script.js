@@ -50,11 +50,16 @@ function swapCurrencies() {
 
 // Função de conversão
 function converter() {
+  const rawValue = inputValue.value; // Valor bruto para depuração
   const value = parseFloat(inputValue.value);
+
+  console.log("Valor bruto do input:", rawValue);
+  console.log("Valor convertido para número:", value);
+
   const fromCurrency = selectFromCurrency.value;
   const toCurrency = selectToCurrency.value;
 
-  if (!value || value < 0) {
+  if (isNaN(value) || value < 0) {
     window.alert("Informe um valor válido!");
     return;
   } else if (fromCurrency === "" || toCurrency === "") {
@@ -86,7 +91,7 @@ function converter() {
   let convertedValue;
   if (fromCurrency === "BRL") {
     // De BRL para moeda estrangeira
-    convertedValue = value * exchangeRates[toCurrency]; // Usando a taxa direta
+    convertedValue = value * exchangeRates[toCurrency];
   } else if (toCurrency === "BRL") {
     // De moeda estrangeira para BRL
     convertedValue = value / exchangeRates[fromCurrency];
