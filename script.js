@@ -10,12 +10,13 @@ let exchangeRates = {};
 //Função para buscar taxas de cambio da AwesomeAPI
 async function fetchExchangeRates() {
   try {
-    const responde = await fetch(
+    resultado.innerHTML = "Carregando taxas de câmbio...";
+    const response = await fetch(
       "https://economia.awesomeapi.com.br/last/BRL-EUR,BRL-USD,BRL-ARS,BRL-GBP,BRL-CNY"
-    )
-    const data = await responde.json();
+    );
+    const data = await response.json();
 
-    //Mapear as taxas para um objeto mais simples
+    // Mapear as taxas para um objeto mais simples
     exchangeRates = {
       euro: parseFloat(data.BRLEUR.bid),
       dolar: parseFloat(data.BRLUSD.bid),
@@ -23,16 +24,20 @@ async function fetchExchangeRates() {
       libra: parseFloat(data.BRLGBP.bid),
       yuan: parseFloat(data.BRLCNY.bid),
     };
+    resultado.innerHTML = ""; // Limpar mensagem de carregamento
+  } catch (error) {
+    console.error("Erro ao buscar taxas de câmbio:", error);
+    resultado.innerHTML = "Erro ao carregar taxas de câmbio. Tente novamente.";
   }
 }
 
 //Chamar a função para carregar as taxas ao iniciar a pagina
-fetchExchangeRates()
+fetchExchangeRates();
 
 function prevencao(e) {
   e.preventDefault(); //para nao atualizar a pagina automaticamente
 
-  if (!inputValue.value || inputValue <= 0) {
+  if (!inputValue.value || parseFloat(inputValue.value) <= 0) {
     window.alert("Informe um valor correto!");
     return;
   } else if (selectCurrency.value == "") {
@@ -44,13 +49,13 @@ function prevencao(e) {
 }
 
 function converter() {
-  const currency = selectCurrency.value
-  const value = parseFloat(inputValue.value)
+  const currency = selectCurrency.value;
+  const value = parseFloat(inputValue.value);
 
   //Verificar se as taxas foram carregadas
-  if(!exchangeRates[currency]) {
-    resultado.innerHTML = "Taxa de câmbio não disponivel. Tente novamente."
-    return
+  if (!exchangeRates[currency]) {
+    resultado.innerHTML = "Taxa de câmbio não disponivel. Tente novamente.";
+    return;
   }
 
   //Mapear moedas para códigos de formata~]ao
@@ -64,7 +69,10 @@ function converter() {
 
   // Calcular o valor convertido
   valueConverter = value / exchangeRates[currency];
-  resultado.innerHTML = formatarvalor(currencyMap[currency].locale, currencyMap[currency].code);
+  resultado.innerHTML = formatarvalor(
+    currencyMap[currency].locale,
+    currencyMap[currency].code
+  );
 
   animateResult();
 
