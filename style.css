@@ -90,7 +90,7 @@ select:hover {
   width: 120px;
 }
 .converter-row button {
-  padding: 8px 15px;
+  padding: 8px 10px;
   background-color: #5ab48d;
   color: white;
   border: none;
@@ -116,6 +116,7 @@ select:hover {
   font-size: 2em;
   color: #5ab48d;
   margin-bottom: 50px;
+  margin-top: 0;
 }
 #resultado span {
   font-size: 0.6em;
@@ -162,7 +163,7 @@ footer {
 
   #resultado {
     font-size: 1.9em;
-    margin-top: 30px;
+    margin-top: 20px;
   }
 
   button {
