@@ -14,40 +14,47 @@
 
     <main>
       <form id="formulario">
-        <section class="inputs_conteiners">
-          <div class="form-group">
-            <label for="valor-real">Valor a ser convertido (R$)</label>
-            <input
-              type="number"
-              name="valor-real"
-              id="valor-real"
-              placeholder="R$20,00"
-              max="100000"
-            />
-          </div>
+        <div class="converter-row">
+          <label for="valor">Valor</label>
+          <input
+            type="number"
+            id="valor"
+            placeholder="0.00"
+            min="0"
+            step="0.01"
+          />
 
-          <div class="form-group">
-            <label for="valor-real">Escolha a moeda:</label>
-            <select id="currency">
-              <option value="">Selecione...</option>
-              <option value="euro">Euros</option>
-              <option value="dolar">Dolar (Americano)</option>
-              <option value="peso">Peso (Argentino)</option>
-              <option value="libra">Libra (Londres)</option>
-              <!--<option value="rublo">Rublo (Russo)</option>-->
-              <option value="yuan">Yuan (China)</option>
-            </select>
-          </div>
-        </section>
+          <label for="from-currency">Converter de</label>
+          <select id="from-currency">
+            <option value="BRL">Real (BRL)</option>
+            <option value="USD">Dólar (USD)</option>
+            <option value="EUR">Euro (EUR)</option>
+            <option value="ARS">Peso (ARS)</option>
+            <option value="GBP">Libra (GBP)</option>
+            <option value="CNY">Yuan (CNY)</option>
+          </select>
 
-        <button onclick="converter()" type="submit">Converter</button>
+          <button type="button" id="swap-currency" onclick="swapCurrencies()">
+            ↔
+          </button>
+
+          <label for="to-currency">Para</label>
+          <select id="to-currency">
+            <option value="BRL">Real (BRL)</option>
+            <option value="USD">Dólar (USD)</option>
+            <option value="EUR">Euro (EUR)</option>
+            <option value="ARS">Peso (ARS)</option>
+            <option value="GBP">Libra (GBP)</option>
+            <option value="CNY">Yuan (CNY)</option>
+          </select>
+
+          <button type="button" onclick="converter()">Converter</button>
+        </div>
+        <h2 id="resultado"></h2>
       </form>
-
-      <h2 id="resultado"></h2>
-      <!--para mostrar o resultado-->
     </main>
 
-    <footer>&copy; Laryssa Tortato Gomes da Silva</footer>
+    <footer>© Laryssa Tortato Gomes da Silva</footer>
 
     <script src="script.js"></script>
   </body>
